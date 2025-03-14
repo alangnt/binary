@@ -1,12 +1,15 @@
+'use client'
+
 import Header from "./components/Header";
 import Home from "./components/Main";
 
-import { LucideIcon, House } from "lucide-react";
+import { LucideIcon, RotateCcw } from "lucide-react";
 
 type Tab = {
 	_id: string;
 	name: string;
 	icon: LucideIcon;
+	action: () => void;
 }
 
 function App() {
@@ -14,7 +17,8 @@ function App() {
 		{
 			_id: "home",
 			name: "Home",
-			icon: House
+			icon: RotateCcw,
+			action: () => window.location.reload(),
 		}
 	]
 	
@@ -27,7 +31,7 @@ function App() {
 			<footer className={"flex items-center justify-center border-t p-4"}>
 				{tabs.map((tab: Tab) => (
 					<div key={tab._id}>
-						<a href="#"><tab.icon/></a>
+						<button onClick={tab.action} className={"cursor-pointer hover:scale-110 hover:rotate-360 transition-all duration-250"}><tab.icon/></button>
 					</div>
 				))}
 			</footer>
