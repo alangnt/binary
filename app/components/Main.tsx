@@ -1,11 +1,15 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import { X } from "lucide-react";
 
 type Cell = 0 | 1 | undefined;
 type Board = Cell[];
 
 export default function Main() {
+	const [rulesMenu, setRulesMenu] = useState<boolean>(false);
+
 	const board: Board[] = [
 		[0, undefined, 1, 1, undefined, undefined],
 		[0, undefined, undefined, undefined, 1, undefined],
@@ -50,6 +54,10 @@ export default function Main() {
 		
 		setInitialBoard(newBoard);
 	};
+
+	useEffect(() => {
+		setRulesMenu(true);
+	}, [])
 	
 	return (
 		<main className={"flex flex-col items-center space-y-4 p-4 grow"}>
@@ -76,7 +84,23 @@ export default function Main() {
 			</div>
 
 			<div>
-				<button className={"mt-4"}>Rules</button>
+				<button onClick={() => setRulesMenu(true)} className={"mt-4 cursor-pointer hover:scale-105 transition-all duration-150"}>Rules</button>
+				<section className={`absolute top-0 left-0 w-screen h-screen flex items-center justify-center bg-black/20 backdrop-blur ${rulesMenu ? '' : 'hidden'}`}>
+					<article className={"border-gray-500 w-fit h-fit text-center relative"}>
+						<h2 className={"text-xl mb-4"}>Rules :</h2>
+						<ul className={"flex flex-col space-y-4 text-sm md:text-lg p-4 md:p-0"}>
+							<li>The grid consists of 6 columns and 6 rows (6x6)</li>
+							<li>Each row and column must contain exactly 3 zeros (0) and 3 ones (1)</li>
+							<li>No more than two consecutive zeros (0 0 0) or ones (1 1 1) are allowed horizontally or vertically</li>
+							<li>The puzzle must be solvable using logic, no guessing required</li>
+							<li className={"mt-4"}>Good luck !</li>
+						</ul>
+
+						<button
+							onClick={() => setRulesMenu(false)}
+							className={"border rounded-full p-2 mt-12 left-1/2 cursor-pointer hover:scale-105 transition-all duration-100"}><X /></button>
+					</article>
+				</section>
 			</div>
 
 			{isValid && (
